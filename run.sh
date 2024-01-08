@@ -1,0 +1,1 @@
+LIB_PADDLE_C_INSTALL_DIR=$PWD/paddle_inference_c_install_dir DYLD_FALLBACK_LIBRARY_PATH=$PWD/paddle_inference_c_install_dir/paddle/lib cargo run --example basic

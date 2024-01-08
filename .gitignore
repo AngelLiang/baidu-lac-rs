@@ -1,2 +1,4 @@
-/target
-/lac_models
+target
+paddle_inference_c_install_dir*
+*.zip
+.DS_Store

@@ -32,7 +32,7 @@ fn parse_targets(labels: Vec<String>, words: Vec<String>) -> Vec<OutputItem> {
 }
 
 pub fn run(query: &str) -> Vec<OutputItem> {
-    let model_path_raw = String::from("./lac_models/seg_model");
+    let model_path_raw = String::from("lac_model");
     let word2dict = load_word2id_dict(format!("{}/conf/word.dic", model_path_raw.clone()));
     let q2b_dict = load_q2b_dict(format!("{}/conf/q2b.dic", model_path_raw.clone()));
     let id2label_dict = load_id2label_dict(format!("{}/conf/tag.dic", model_path_raw.clone()));
@@ -46,7 +46,7 @@ pub fn run(query: &str) -> Vec<OutputItem> {
     config.disable_gpu();
     config.disable_glog_info();
     config.set_cpu_math_library_num_threads(1);
-    config.set_model_dir("./lac_models/seg_model/model");
+    config.set_model_dir("lac_model/model");
 
     let predictor = PdPredictor::new(&config);
     let input_names = predictor.get_input_names();
