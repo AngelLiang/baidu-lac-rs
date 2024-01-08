@@ -18,13 +18,13 @@ fork from https://github.com/dimusic/baidu-lac-rs
 
 paddle inference下载地址：https://paddleinference.paddlepaddle.org.cn/master/user_guides/download_lib.html#mac
 
-注意选择v2.3.2版本。下载好后，解压paddle inference，主目录下会有paddle_inference_c_install_dir文件夹。
+需要选择v2.3.2版本的C预测库，即paddle_inference_c.zip，下载好后解压，主目录下会有paddle_inference_c_install_dir文件夹。
 
 lac_model已经配置好，不需要手动下载和配置。如果需要切换model，下载相关model后，再修改src/dict_utils.rs中的run函数对应的路径即可。
 
 lac下载地址：https://github.com/baidu/lac/releases/tag/v2.0.0
 
-由于 baidu-lac-rs 是基于 [paddle-inference-rust-api](https://github.com/dimusic/paddle-inference-rust-api)，在macOS环境中需要设置`LIB_PADDLE_C_INSTALL_DIR`和`DYLD_FALLBACK_LIBRARY_PATH`环境变量，已经写在run.sh脚本中。
+由于 baidu-lac-rs 是基于 [paddle-inference-rust-api](https://github.com/dimusic/paddle-inference-rust-api)，需要在macOS环境中需要设置`LIB_PADDLE_C_INSTALL_DIR`和`DYLD_FALLBACK_LIBRARY_PATH`环境变量，已经写在run.sh脚本中。
 
 ```
 LIB_PADDLE_C_INSTALL_DIR=$PWD/paddle_inference_c_install_dir DYLD_FALLBACK_LIBRARY_PATH=$PWD/paddle_inference_c_install_dir/paddle/lib cargo run --example basic
