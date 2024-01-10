@@ -7,18 +7,24 @@ fork from https://github.com/dimusic/baidu-lac-rs
 ## 测试环境
 
 - macOS v12.6
-- paddle inference v2.3.2
+- paddle inference v2.3.2/v2.4.2/v2.5.2
 - lac v2.0.0
 
 ## 使用说明
 
 使用本示例需要做一些准备工作，下载paddle inference库和lac model，设置环境变量等。
 
-经过测试，使用paddle inference v2.3.2和lac v2.0.0可以正常运行。
+经过测试，在x86_64芯片架构的macOS，使用paddle inference v2.3.2，v2.4.2，v2.5.2，配合lac v2.0.0可以正常运行。
 
-paddle inference下载地址：https://paddleinference.paddlepaddle.org.cn/master/user_guides/download_lib.html#mac
+paddle inference 下载地址，选择c推理库。
 
-需要选择v2.3.2版本的C预测库，即paddle_inference_c.zip，下载好后解压，主目录下会有paddle_inference_c_install_dir文件夹。
+- V2.3.2: https://paddleinference.paddlepaddle.org.cn/master/user_guides/download_lib.html#mac
+- v2.4.2: https://www.paddlepaddle.org.cn/inference/v2.4/guides/install/download_lib.html#mac
+- v2.5.2: https://www.paddlepaddle.org.cn/inference/v2.5/guides/install/download_lib.html#mac
+
+
+
+下载好paddle_inference_c.zip后，解压，主目录下会有paddle_inference_c_install_dir文件夹。
 
 lac_model已经配置好，不需要手动下载和配置。如果需要切换model，下载相关model后，再修改src/dict_utils.rs中的run函数对应的路径即可。
 
@@ -89,5 +95,3 @@ result [
     },
 ]
 ```
-
-
