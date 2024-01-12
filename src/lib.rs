@@ -1,15 +1,14 @@
+mod utils;
+pub mod schemas;
+
 use std::{str::Chars};
-
-use output_item::OutputItem;
+use schemas::LacOut;
 use paddle_inference_rust_api::{PdConfig, PdPredictor};
+use crate::utils::{load_word2id_dict, load_q2b_dict, load_id2label_dict};
 
-use crate::dict_utils::{load_word2id_dict, load_q2b_dict, load_id2label_dict};
 
-pub mod output_item;
-mod dict_utils;
-
-fn parse_targets(labels: Vec<String>, words: Vec<String>) -> Vec<OutputItem> {
-    let mut result: Vec<OutputItem> = vec![];
+fn parse_targets(labels: Vec<String>, words: Vec<String>) -> Vec<LacOut> {
+    let mut result: Vec<LacOut> = vec![];
 
     labels.iter().enumerate().for_each(|(i, label)| {
         let label_len = label.len();
@@ -17,7 +16,7 @@ fn parse_targets(labels: Vec<String>, words: Vec<String>) -> Vec<OutputItem> {
         if result.is_empty() || label.rfind("B") == Some(label_len  - 1) || label.rfind("S") == Some(label_len - 1) {
             let tag = &labels[i][0..(labels[i].len() - 2)];
 
-            result.push(OutputItem {
+            result.push(LacOut {
                 word: words[i].clone(),
                 tag: tag.to_owned(),
             });
@@ -31,7 +30,7 @@ fn parse_targets(labels: Vec<String>, words: Vec<String>) -> Vec<OutputItem> {
     result
 }
 
-pub fn run(query: &str) -> Vec<OutputItem> {
+pub fn run(query: &str) -> Vec<LacOut> {
     let model_path_raw = String::from("lac_model");
     let word2dict = load_word2id_dict(format!("{}/conf/word.dic", model_path_raw.clone()));
     let q2b_dict = load_q2b_dict(format!("{}/conf/q2b.dic", model_path_raw.clone()));
@@ -104,10 +103,10 @@ println!("[baidu-lac-rs]: Elapsed: {:.2?}", elapsed);
         String::from("")
     }).collect();
 
-    let output_items = parse_targets(labels, _sec_words_batch[0].clone()
+    let out = parse_targets(labels, _sec_words_batch[0].clone()
         .into_iter()
         .map(|c| { c.to_string() })
         .collect());
 
-    output_items
+    out
 }
