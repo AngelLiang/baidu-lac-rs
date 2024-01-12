@@ -18,7 +18,7 @@ fn main() {
     println!("cargo:rustc-link-lib=dylib=paddle_inference_c");
     
     let bindings = bindgen::Builder::default()
-        .rustfmt_bindings(true)
+        // .rustfmt_bindings(true)
         .header("./paddle_wrapper.h")
         .detect_include_paths(true)
         .generate()
