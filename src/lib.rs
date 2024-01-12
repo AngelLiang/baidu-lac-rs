@@ -40,18 +40,24 @@ pub fn run(query: &str) -> Vec<LacOut> {
         .unwrap_or(&(word2dict.len() as i64 - 1))
         .to_owned();
 
-    let config = PdConfig::new();
+    println!("[baidu-lac-rs]: init lac model");
+
+    let config: PdConfig = PdConfig::new();
     config.enable_mkldnn();
     config.disable_gpu();
     config.disable_glog_info();
     config.set_cpu_math_library_num_threads(1);
     config.set_model_dir("lac_model/model");
 
+    println!("[baidu-lac-rs]: init config");
+
     let predictor = PdPredictor::new(&config);
     let input_names = predictor.get_input_names();
     let input_tensor = predictor.get_input_handle(&input_names[0]);
     let output_names = predictor.get_output_names();
     let output_tensor = predictor.get_output_handle(&output_names[0]);
+
+    println!("[baidu-lac-rs]: init predictor");
 
     // generate data
     let mut _sec_words_batch: Vec<Chars> = vec![];
@@ -83,13 +89,15 @@ pub fn run(query: &str) -> Vec<LacOut> {
         word_id
     }).collect();
 
+    println!("[baidu-lac-rs]: will copy_from_cpu");
     input_tensor.copy_from_cpu(data);
+    println!("[baidu-lac-rs]: copy_from_cpu done");
 
-use std::time::Instant;
-let now = Instant::now();
+    use std::time::Instant;
+    let now = Instant::now();
     predictor.run();
-let elapsed = now.elapsed();
-println!("[baidu-lac-rs]: Elapsed: {:.2?}", elapsed);
+    let elapsed = now.elapsed();
+    println!("[baidu-lac-rs]: Elapsed: {:.2?}", elapsed);
 
     let output_shape = output_tensor.get_shape();
     let mut output_data: Vec<i64> = vec![0; output_shape[0].try_into().unwrap()];
